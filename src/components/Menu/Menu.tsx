@@ -33,7 +33,7 @@ const Menu = () => {
                         Esqueci minha senha
                     </button>
 
-                    <button className="rounded-md bg-gradient-to-r from-primary-color to-secondary-red w-40 h-8 px-12 text-white font-vietnam">
+                    <button className="rounded-md bg-gradient-to-r from-primary-color to-secondary-red w-40 h-8 px-12 text-white font-vietnam" onClick={() => handlePage("/home")}>
                         Entrar
                     </button>
 
