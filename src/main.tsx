@@ -8,6 +8,7 @@ import {
 import Login from './sections/Login.tsx';
 import Register from './sections/Register.tsx';
 import Home from './sections/Home.tsx';
+import Profile from './sections/Profile.tsx';
 
 const router  = createBrowserRouter([
   {
@@ -23,6 +24,11 @@ const router  = createBrowserRouter([
   {
     path: "/home",
     element: <Home/>
+  },
+
+  {
+    path: "/profile",
+    element: <Profile />
   }
 ])
 
