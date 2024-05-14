@@ -5,7 +5,7 @@ const Profile = () => {
   const { state } = useLocation();
 
   return (
-    <div className="flex w-full h-screen bg-[#141627]">
+    <div className="w-full min-h-screen flex justify-center items-center bg-[#141627]">
        <User profileImg={state.profileImg} 
              id={state.id} 
              name={state.name} 
