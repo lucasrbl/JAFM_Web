@@ -6,7 +6,9 @@ import { TableRow } from "../components/Table/TableRow";
 import { ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from 'lucide-react';
 import { IconButton } from "../components/Table/IconButton";
 import { useNavigate } from "react-router-dom";
-
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { db } from '../config/firebase';
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Home = () => {
   const array = [
