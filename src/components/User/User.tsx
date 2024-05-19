@@ -1,25 +1,20 @@
-import Icon from "../../assets/images/icons8-sobre-24.png"
+import Icon from "../../assets/images/icons8-sobre-24.png";
+import Check from "../../assets/images/check.png";
+import { UserType } from "../../types/User";
 
-interface UserProps {
-    id: string;
-    name: string;
-    empresa: string;
-    turma: string;
-    profileImg: string;
-}
 
-const User = (props: UserProps) => {
+const User = (props: UserType) => {
   return (
-<div className="flex flex-col items-center justify-center">
+<div className="flex flex-col items-center justify-center p-5">
     <div className="flex gap-x-10 items-center p-16">
         <div>
             <img src={props.profileImg} alt="Foto de Perfil do Usuário" className="rounded-full w-40 overflow-hidden"/>
         </div>
         <div className="flex flex-col">
             <p className="font-vietnam text-white text-xl">{props.name}</p>
-            <p className="font-vietnam text-white text-sm"><span className="font-bold">RA:</span> {props.id}</p>
+            <p className="font-vietnam text-white text-sm"><span className="font-bold">RA:</span> {props.ra}</p>
             <p className="font-vietnam text-white text-sm"><span className="font-bold">Turma:</span> {props.turma}</p>
-            <p className="font-vietnam text-white text-sm"><span className="font-bold">Empresa:</span> {props.empresa}</p>
+            <p className="font-vietnam text-white text-sm"><span className="font-bold">CNPJ da Empresa:</span> {props.cnpj}</p>
         </div>
     </div>
     <div className="border-b border-white/45 border-solid h-px w-10/12 rounded-full"></div>
@@ -44,13 +39,13 @@ const User = (props: UserProps) => {
 
             <div className="flex flex-col items-center">
                 <p className="font-vietnam text-white">Progresso</p>
-                <p className="font-vietnam text-white font-bold text-4xl">38%</p>
+                <p className="font-vietnam text-white font-bold text-4xl">{props.progresso}%</p>
             </div>
+        </div>
 
-            <div className="flex flex-col items-center">
-                <p className="font-vietnam text-white">Progresso</p>
-                <p className="font-vietnam text-white font-bold text-4xl">38%</p>
-            </div>
+
+        <div>
+            <button className="flex items-center gap-1 w-25 font-vietnam px-3 py-1 rounded-2xl text-sm bg-white"><img width={40} src={Check} alt=""/>Gerar Relatório de Aprendiz</button>
         </div>
 </div>
   )

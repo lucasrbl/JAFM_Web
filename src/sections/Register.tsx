@@ -9,7 +9,6 @@ const Register = () => {
             h-screen
             relative
             overflow-hidden
-            block
             z-10
             
             bg-working-man

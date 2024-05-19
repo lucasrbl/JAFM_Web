@@ -11,25 +11,13 @@ import Home from './sections/Home.tsx';
 import Profile from './sections/Profile.tsx';
 
 const router  = createBrowserRouter([
-  {
-    path: "/",
-    element: <Login/>
-  },
+  { path: "/", element: <Login/> },
 
-  {
-    path: "/register",
-    element: <Register/>
-  },
+  { path: "/register", element: <Register/> },
 
-  {
-    path: "/home",
-    element: <Home/>
-  },
-
-  {
-    path: "/profile",
-    element: <Profile />
-  }
+  { path: "/home", element: <Home/> },
+  
+  { path: "/profile", element: <Profile /> }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

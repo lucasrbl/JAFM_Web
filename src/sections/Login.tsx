@@ -10,13 +10,11 @@ const Login = () => {
         h-screen
         relative
         overflow-hidden
-        block
         z-10
         
         bg-working-man
         bg-cover
         bg-no-repeat  
-
         before:content-['']
         before:absolute
         before:inset-0
