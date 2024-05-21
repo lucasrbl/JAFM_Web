@@ -1,7 +1,8 @@
 import { useLocation } from "react-router-dom"
 import User from "../components/User/User"
 
-const Profile = () => {    
+const Profile = () => { 
+  
   const { state } = useLocation();
 
   return (

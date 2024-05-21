@@ -1,17 +1,13 @@
-import React, { useState, SetStateAction, useEffect } from "react";
+import React, { useState, SetStateAction } from "react";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db, storage } from '../../config/firebase';
+import { auth, db } from '../../config/firebase';
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
 import { data } from "../Turmas";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
-import { v4 } from "uuid";
 
 
 const Menu = () => {
-  const [imageList, setImageList] = useState<string[]>([]);
   const [email, setEmail] = useState("");
-  const [imgFile, setImgFile] = useState<any>();
   const [pass, setPass] = useState("");
   const [passDouble, setPassDouble] = useState("");
   const [errorLogin, setErrorLogin] = useState(false);
@@ -29,28 +25,6 @@ const Menu = () => {
     navigate(page);
   };
 
-  const refImageList = ref(storage, "images/")
-
-  useEffect(() => {
-    listAll(refImageList)
-    .then((res) => res.items.forEach((item) => {
-      getDownloadURL(item).then((url) => {
-        setImageList((prev) => [...prev, url])
-      })
-    }))
-  },[])
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
-    if(event.target.files) {
-        setImgFile(event.target.files[0])
-    }
-
-    const imageRef = ref(storage, `images/${imgFile?.name + v4()}`)
-    uploadBytes(imageRef, imgFile)
-    .then((snapshot) => getDownloadURL(snapshot.ref).then((url) => {
-      setImageList((prev) => [...prev, url])
-    }))
-  }
 
   const handleVarChange = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>, setState: React.Dispatch<SetStateAction<string>>) => {
     const value = event.target.value;
@@ -58,14 +32,17 @@ const Menu = () => {
   };
 
   const login = () => {
-    console.log("Email:", email);
-    console.log("Senha:", pass);
 
     signInWithEmailAndPassword(auth, email, pass)
       .then((userCredential) => {
+        if(email.includes('@jafm.com')) {
+          navigate("/home");
+        }
+
+        else {
+          setErrorLogin(true);
+        }
         // Signed in
-        const user = userCredential.user;
-        navigate("/home");
       })
       .catch((error) => {
         setErrorLogin(true);
@@ -95,7 +72,7 @@ const Menu = () => {
       });
 
       console.log("Usuário cadastrado com sucesso:", user);
-      navigate("/home", { state: imageList });
+      navigate("/home");
     } catch (error) {
       console.error("Erro ao cadastrar usuário:", error);
     }
@@ -108,7 +85,7 @@ const Menu = () => {
           <div className="flex flex-col items-center">
             <p className="text-white text-xl font-bold font-vietnam mb-5">Login</p>
 
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 items-center">
               <div className="flex flex-col gap-2.5">
                 <label htmlFor="email" className="text-white font-vietnam text-xs font-bold">E-mail</label>
                 <input className="rounded-xl w-72 px-6 py-1.5" id="email" type="email" onChange={(event) => handleVarChange(event, setEmail)} value={email} />
@@ -120,13 +97,19 @@ const Menu = () => {
               </div>
 
               <div className="flex flex-col items-center gap-6">
-                <button className="text-white underline font-bold">
+                {/*<button className="text-white underline font-bold" onClick={() => navigate("/forgot-my-password")}>
                   Esqueci minha senha
-                </button>
+                  </button>*/}
 
                 <button className="rounded-md bg-gradient-to-r from-primary-color to-secondary-red w-40 h-8 px-12 text-white font-vietnam" onClick={login}>
                   Entrar
                 </button>
+
+                {errorLogin == true && (
+                  <div className="flex flex-col items-center text-red-500">
+                    <p>Usuário ou senha inválidos, por favor, tente novamente!</p>
+                  </div>
+                )}
 
                 <button className="text-white font-bold" onClick={() => handlePage("/register")}>
                   Quero me cadastrar
@@ -211,7 +194,7 @@ const Menu = () => {
 
 
               <div className="flex flex-col items-center gap-6 px-2">
-                <button className="text-white font-bold">
+                <button className="text-white font-bold font-vietnam">
                   Confira nossos termos de propriedade intelectual
                 </button>
 
@@ -219,7 +202,7 @@ const Menu = () => {
                   Cadastrar
                 </button>
 
-                <button className="text-white font-bold" onClick={() => handlePage("/")}>
+                <button className="text-white font-bold font-vietnam" onClick={() => handlePage("/")}>
                   Fazer Login
                 </button>
               </div>
