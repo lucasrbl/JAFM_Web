@@ -36,7 +36,7 @@ const User = (props: UserType) => {
           querySnapshot.forEach(doc => {
             const turmas = doc.data().turma.split(',');
             for (const turma of turmas) {
-              promises.push(new Promise<void>(async (resolve, reject) => {
+              promises.push(new Promise<void>(async (resolve) => {
                 const filteredCityData = data.filter(cityData => cityData.turmas.includes(turma));
                 if (filteredCityData.length === 0) {
                   const q = query(collection(db, 'users'), where('turma', '==', turma));
