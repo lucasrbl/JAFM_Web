@@ -58,16 +58,8 @@ const BarChart: React.FC<{ names: string[]; progress: number[]; }> = ({ names, p
 
 
 const Modal: React.FC<PropTypes> = ({isOpen, setOpen, names, progresses}) => {
-  const [index, setIndex] = useState<number>(0);
+  const [index] = useState<number>(0);
 
-
-  const handleNextChart = () => {
-    setIndex((prev) => (prev + 1) % 2);
-  }
-
-  const handlePrevChart = () => {
-    setIndex((prev) => (prev - 1) % 2);
-  }
   return isOpen ? (
     <div className='fixed top-0 left-0 right-0 bottom-0 bg-black/50 flex items-center justify-center'>
         <div className='bg-[#141627] w-4/5 relative'>

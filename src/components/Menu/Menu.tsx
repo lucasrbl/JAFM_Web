@@ -33,7 +33,7 @@ const Menu = () => {
   const login = () => {
 
     signInWithEmailAndPassword(auth, email, pass)
-      .then((userCredential) => {
+      .then((_userCredential) => {
         if(email.includes('@jafm.com')) {
           navigate("/home");
         }
