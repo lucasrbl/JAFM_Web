@@ -8,14 +8,17 @@ import {
 import Login from './sections/Login.tsx';
 import Home from './sections/Home.tsx';
 import Profile from './sections/Profile.tsx';
+import LandingPage from './sections/LandingPage.tsx';
 
 
 const router  = createBrowserRouter([
-  { path: "/", element: <Login/> },
+  { path: "/login", element: <Login/> },
   { path: "/register", element: <Login/> },
   { path: "/forgot-my-password", element: <Login/> },
   { path: "/home", element: <Home/>},
   { path: "/profile", element: <Profile/>},
+  { path: "/dashboard", element: <Profile />},
+  { path: "/", element: <LandingPage />},
 
   {/*{ path: "/home", element: <ProtectedRoute><Home/></ProtectedRoute> },
 { path: "/profile", element: <ProtectedRoute><Profile/></ProtectedRoute> }*/},

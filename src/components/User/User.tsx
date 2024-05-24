@@ -1,17 +1,150 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "../../assets/images/icons8-sobre-24.png";
 import Check from "../../assets/images/check.png";
 import { UserType } from "../../types/User";
 import Modal from "../Modal/Modal";
+import { onAuthStateChanged } from "firebase/auth";
+import { query, collection, where, getDocs } from "firebase/firestore";
+import { auth, db } from "../../config/firebase";
+import { data } from "../Turmas";
+
+interface TurmaType {
+  turma: string;
+  progresso: number;
+}
+
+
 
 const User = (props: UserType) => {
+  const [userUid, setUserUid] = useState("");
+  const [users, setUsers] = useState<any[]>([]);
+  const [turma, setTurma] = useState<string[]>([]);
+  const [turmaY, setTurmaY] = useState<TurmaType[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+
+  useEffect(() => {
+
+    const fetchOtherManagersTurmas = async (): Promise<void> => {
+      try {
+        const q = query(collection(db, 'managers'), where('userUid', '!=', userUid));
+        const querySnapshot = await getDocs(q);
+        const turmaProgressoArray: TurmaType[] = [];
+    
+        if (!querySnapshot.empty) {
+          const promises: any[] = [];
+          querySnapshot.forEach(doc => {
+            const turmas = doc.data().turma.split(',');
+            for (const turma of turmas) {
+              promises.push(new Promise<void>(async (resolve, reject) => {
+                const filteredCityData = data.filter(cityData => cityData.turmas.includes(turma));
+                if (filteredCityData.length === 0) {
+                  const q = query(collection(db, 'users'), where('turma', '==', turma));
+                  const querySnapshot = await getDocs(q);
+                  if (!querySnapshot.empty) {
+                    const progressoMedio = getAverageProgress(querySnapshot.docs.map(doc => doc.data() as UserType));
+                    turmaProgressoArray.push({ turma, progresso: progressoMedio });
+                  } else {
+                    turmaProgressoArray.push({ turma, progresso: 0 });
+                  }
+                  resolve();
+                } else {
+                  resolve();
+                }
+              }));
+            }
+          });
+          await Promise.all(promises);
+          setTurmaY(turmaProgressoArray);
+        }
+      } catch(error) {
+        console.error("Erro ao buscar turmas de outros professores:", error);
+      }
+    };                
+        if (userUid) {
+          fetchOtherManagersTurmas();
+        }
+      }, [userUid]);  
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserUid(user.uid);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const fetchManagersTurmas = async () => {
+      try {
+        const q = query(collection(db, 'managers'), where('userUid', '==', userUid));
+        const querySnapshot = await getDocs(q);
+        const turmas = querySnapshot.docs.map(doc => doc.data().turma);
+        
+        if (turmas.length > 0) {
+          const turmasArray = turmas[0].split(',');
+          setTurma(turmasArray);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar turmas dos managers:", error);
+      }
+    };
+    
+    if (userUid) {
+      fetchManagersTurmas();
+    }
+  }, [userUid]);
+  
+  useEffect(() => {
+    if (turma.length > 0) {
+      checkDocument(turma);
+      
+    }
+  }, [turma]);
+
+  const checkDocument = async (turma: string[]) => {
+    try {
+      const q = query(collection(db, 'users'), where('turma', 'in', turma));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const user = querySnapshot.docs.map((doc) => {
+          const id = doc.id;
+          const data = doc.data();
+          return { id, ...data };
+        });
+        setUsers(user);
+      }
+    } catch(error) {
+      console.error("Erro ao verificar documentos na coleção", error);
+    }
+  };
+  
+  const getAverageProgress = (students: UserType[]): number => {
+    if (students.length === 0) return 0;
+    const totalProgress = students.reduce((acc, student) => acc + Number(student.progresso), 0);
+    return totalProgress / students.length;
+  };
+
+  const countStudents = (students: UserType[]): { count: number, average: number, arr: number[] } => {
+    const count = students.length;
+
+    const average = getAverageProgress(users)
+
+    const arr = [Number(props.progresso), average]
+    return { count, average, arr};
+  };  
+
+  const res = countStudents(users)
+
+  console.log(turmaY)
 
   return (
     <div className="flex flex-col items-center justify-center p-5">
       <div className="flex gap-x-10 items-center p-16">
         <div>
-          <img src={props.profileImg} alt="Foto de Perfil do Usuário" className="rounded-full w-40 overflow-hidden" />
+          <img src={props.profileImg} alt={props.profileImg ? 'Foto de perfil' : 'Usuário sem foto de perfil disponível'} className="rounded-full w-40 overflow-hidden" />
         </div>
         <div className="flex flex-col">
           <p className="font-vietnam text-white text-xl">{props.name}</p>
@@ -29,7 +162,11 @@ const User = (props: UserType) => {
           </p>
         </div>
         <div>
-          <p className="font-vietnam text-white text-sm">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus quis distinctio odit dicta, quasi, cupiditate quo possimus aliquid sint, necessitatibus iusto officia incidunt reprehenderit ipsum nostrum in omnis eius laboriosam. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maxime neque quae quod quibusdam laboriosam dolores aspernatur quam, sit esse sint, nesciunt excepturi libero officiis consequatur beatae optio, commodi ad iure!</p>
+          <p className="font-vietnam text-white text-sm">
+            Usuário cadastrado em {props.dataInicio}, tem como telefone de contato o número {props.telefone}, 
+            frequenta também a unidade de {props.turma == 'TIN5' || 'TIN6' ? 'Campinas' : props.turma == 'TIN1' || 'TIN2' ? 'Sorocaba' : 'São Paulo'}, 
+            nascido(a) em {props.dataNascimento}. Seu progresso é avaliado atualmente em:
+           </p>
         </div>
       </div>
 
@@ -45,14 +182,27 @@ const User = (props: UserType) => {
         </div>
       </div>
 
+      <div className="flex flex-col items-center gap-3">
+          <p className="font-vietnam text-white text-sm">
+            Com isso, considera-se que o jovem {props.name} tem 
+            {
+             Number(props.progresso) == 50 ? 'progresso razoável, já que possui metade da pontuação possível de se atingir'
+             : Number(props.progresso) >= 80 ? 'ótimo progresso, possuindo grande destaque entre os jovens da filial em questão, com um desenvolvimento fantástico' 
+             : Number(props.progresso) > 65 && Number(props.progresso) < 80 ? ' bom progresso com pontuação suficiente para estar com seu desenvolvimento confortável' 
+             : Number(props.progresso) <= 45 ? 'progresso ruim, converse com o jovem em questão para debater pontos de melhoria identificados': 'Não há dados' 
+               }
+           </p>
+           <p className="font-vietnam text-white text-sm">Clique abaixo para ter uma visualização gráfica dos dados do jovem aprendiz</p>
+        </div>
+
       <div>
-        <button className="flex items-center gap-1 w-25 font-vietnam px-3 py-1 rounded-2xl text-sm bg-white" onClick={() => setIsOpen(!isOpen)}>
+        <button className="flex items-center gap-1 w-55 font-vietnam px-3 py-1 rounded-2xl text-sm bg-white" onClick={() => setIsOpen(!isOpen)}>
           <img width={40} src={Check} alt="" />
           Gerar Relatório de Aprendiz
         </button>
       </div>
 
-      <Modal isOpen={isOpen} setOpen={setIsOpen} />
+      <Modal isOpen={isOpen} setOpen={setIsOpen} progresses={res.arr} names={[props.name, 'Turma']}/>
     </div>
   );
 };

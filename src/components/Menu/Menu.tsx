@@ -14,7 +14,6 @@ const Menu = () => {
   const [telefone, setTelefone] = useState("");
   const [nome, setNome] = useState("");
   const [cpf, setCpf] = useState("");
-  const [ra, setRA] = useState("");
   const [filial, setFilial] = useState("");
   const [turma, setTurma] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
@@ -65,7 +64,6 @@ const Menu = () => {
         nome,
         cpf,
         filial,
-        ra,
         turma,
         userUid: user.uid,
         dataNascimento
@@ -80,7 +78,7 @@ const Menu = () => {
 
   return (
     <>
-      {location.pathname === '/' && (
+      {location.pathname === '/login' && (
         <div className="flex justify-center items-center ml-auto w-1/3 bg-gradient-to-b from-[#7B4296] from-[-45%] via-[#000000] via-50% to-primary-color to-[130%] overflow-y-scroll">
           <div className="flex flex-col items-center">
             <p className="text-white text-xl font-bold font-vietnam mb-5">Login</p>
@@ -154,11 +152,6 @@ const Menu = () => {
               <div className="flex flex-col gap-2.5">
                 <label htmlFor="cpf" className="text-white font-vietnam text-xs font-bold">CPF:</label>
                 <input className="rounded-xl w-72 px-6 py-1.5" id="cpf" type="text" onChange={(event) => handleVarChange(event, setCpf)} value={cpf} />
-              </div>
-
-              <div className="flex flex-col gap-2.5">
-                <label htmlFor="RA" className="text-white font-vietnam text-xs font-bold">RA:</label>
-                <input className="rounded-xl w-72 px-6 py-1.5" id="RA" type="text" onChange={(event) => handleVarChange(event, setRA)} value={ra} />
               </div>
 
               <div className="flex flex-col gap-2.5">
