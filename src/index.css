@@ -26,3 +26,13 @@
       .scrollbar::-webkit-scrollbar-thumb:hover {
         background: #b30000; 
       }
+
+      .swiper-pagination-bullet {
+        background-color: #F65151; /* Substitua pela sua cor primária */
+        opacity: 0.7; /* Define a opacidade inicial */
+      }
+      
+      .swiper-pagination-bullet-active {
+        background-color: #F65151 ; /* Substitua pela sua cor primária */
+        opacity: 1; /* Define a opacidade total quando ativo */
+      }

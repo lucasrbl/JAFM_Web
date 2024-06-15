@@ -9,6 +9,7 @@ import Login from './sections/Login.tsx';
 import Home from './sections/Home.tsx';
 import Profile from './sections/Profile.tsx';
 import LandingPage from './sections/LandingPage.tsx';
+import { register } from 'swiper/element/bundle'
 
 
 const router  = createBrowserRouter([
@@ -24,6 +25,13 @@ const router  = createBrowserRouter([
 { path: "/profile", element: <ProtectedRoute><Profile/></ProtectedRoute> }*/},
 
 ])
+
+register();
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 

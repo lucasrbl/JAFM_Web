@@ -6,63 +6,63 @@ import Modal from "../Modal/Modal";
 import { onAuthStateChanged } from "firebase/auth";
 import { query, collection, where, getDocs } from "firebase/firestore";
 import { auth, db } from "../../config/firebase";
-import { data } from "../Turmas";
-
-interface TurmaType {
-  turma: string;
-  progresso: number;
-}
-
 
 
 const User = (props: UserType) => {
   const [userUid, setUserUid] = useState("");
   const [users, setUsers] = useState<any[]>([]);
+  const [otherUsers, setOtherUsers] = useState<any[]>([]);
   const [turma, setTurma] = useState<string[]>([]);
-  const [turmaY, setTurmaY] = useState<TurmaType[]>([]);
+  const [otherClasses, setOtherClasses] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
 
   useEffect(() => {
 
-    const fetchOtherManagersTurmas = async (): Promise<void> => {
+    const fetchOtherManagersClasses = async () => {
       try {
         const q = query(collection(db, 'managers'), where('userUid', '!=', userUid));
         const querySnapshot = await getDocs(q);
-        const turmaProgressoArray: TurmaType[] = [];
+        const allClasses: string[] = [];
     
         if (!querySnapshot.empty) {
-          const promises: any[] = [];
-          querySnapshot.forEach(doc => {
-            const turmas = doc.data().turma.split(',');
-            for (const turma of turmas) {
-              promises.push(new Promise<void>(async (resolve) => {
-                const filteredCityData = data.filter(cityData => cityData.turmas.includes(turma));
-                if (filteredCityData.length === 0) {
-                  const q = query(collection(db, 'users'), where('turma', '==', turma));
-                  const querySnapshot = await getDocs(q);
-                  if (!querySnapshot.empty) {
-                    const progressoMedio = getAverageProgress(querySnapshot.docs.map(doc => doc.data() as UserType));
-                    turmaProgressoArray.push({ turma, progresso: progressoMedio });
-                  } else {
-                    turmaProgressoArray.push({ turma, progresso: 0 });
-                  }
-                  resolve();
-                } else {
-                  resolve();
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const classes = data.turma
+
+            if (classes) {
+              const classArray = classes.split(',');
+
+              classArray.forEach((t:string) => {
+                if (!allClasses.includes(t) && !turma.includes(t)) {
+                  allClasses.push(t);
                 }
-              }));
+              });
             }
           });
-          await Promise.all(promises);
-          setTurmaY(turmaProgressoArray);
+
+          setOtherClasses(allClasses);
+        }
+
+        if (allClasses.length > 0) {
+          const usersQuery = query(collection(db, 'users'), where('turma', 'in', allClasses));
+          const snapshot = await getDocs(usersQuery);
+
+          if (!snapshot.empty) {
+            const users = snapshot.docs.map((doc) => {
+              const id = doc.id;
+              const data = doc.data();
+              return { id, ...data };
+            });
+            setOtherUsers(users);
+          }
         }
       } catch(error) {
         console.error("Erro ao buscar turmas de outros professores:", error);
       }
     };                
         if (userUid) {
-          fetchOtherManagersTurmas();
+          fetchOtherManagersClasses();
         }
       }, [userUid]);  
 
@@ -129,16 +129,19 @@ const User = (props: UserType) => {
 
   const countStudents = (students: UserType[]): { count: number, average: number, arr: number[] } => {
     const count = students.length;
+    const average = getAverageProgress(students)
 
-    const average = getAverageProgress(users)
-
-    const arr = [Number(props.progresso), average]
+    const arr = students.map(student => Number(student.progresso));
     return { count, average, arr};
   };  
 
   const res = countStudents(users)
+  const otherRes = countStudents(otherUsers)
 
-  console.log(turmaY)
+  console.log("Turmas do professor atual", turma + "\nOutras turmas: ", otherClasses)
+  console.log("Média do progresso de usuários", res.average + "\nMédia do progresso de usuários de outras turmas", otherRes.average)
+  console.log("Progressos de usuários", res.arr + "\nProgressos de usuários de outras turmas", otherRes.arr) 
+
 
   return (
     <div className="flex flex-col items-center justify-center p-5">
@@ -202,7 +205,12 @@ const User = (props: UserType) => {
         </button>
       </div>
 
-      <Modal isOpen={isOpen} setOpen={setIsOpen} progresses={res.arr} names={[props.name, 'Turma']}/>
+      <Modal isOpen={isOpen} setOpen={setIsOpen} chartData={{
+        barProgress: [Number(props.progresso), res.average],
+        otherBarProgress: [Number(props.progresso), otherRes.average],
+        barNames: [props.name, 'Média do Progresso da turma'],
+        otherBarNames: [props.name, 'Média do progresso de outras turmas']
+      }} />
     </div>
   );
 };

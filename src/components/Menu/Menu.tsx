@@ -3,7 +3,7 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "fire
 import { auth, db } from '../../config/firebase';
 import { useNavigate } from "react-router-dom";
 import { doc, setDoc } from "firebase/firestore";
-import { data } from "../Turmas";
+import { data } from "../../types/Turmas";
 
 
 const Menu = () => {
