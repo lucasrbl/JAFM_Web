@@ -1,9 +1,9 @@
 import { ElementType } from 'react';
 
-export interface BenefitsCardType {
+export type BenefitsCardType = {
   cards: {
     Icon: ElementType;
     title: string;
     paragraphs: string;
   }[];
-}
+} & React.ComponentProps<'div'>;

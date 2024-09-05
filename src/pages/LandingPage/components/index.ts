@@ -1,4 +1,5 @@
-export { ContactForm } from './ContactForm/ContactForm';
+export { AboutSection } from './sections/AboutSection/AboutSection';
+export { PlansSection } from './sections/PlansSection/PlansSection';
 export { Footer } from './Footer/Footer';
 export { Header } from './Header/Header';
-export { HeroSection } from './HeroSection/HeroSection';
+export { Home } from './Home/Home';

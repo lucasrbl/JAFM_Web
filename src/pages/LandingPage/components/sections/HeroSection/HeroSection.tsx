@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import homeImage from '@/assets/images/home-image.png';
-import { Carousel } from '../Carousel/Carousel';
+import { BenefitsCard, Carousel } from './components/index';
+import { FastForward, Monitor, LineChart } from 'lucide-react';
 
 export const HeroSection = () => {
   return (
@@ -31,7 +32,7 @@ export const HeroSection = () => {
         <img src={homeImage} alt='' className='rounded-md hidden md:block' />
       </article>
 
-      <article className='mt-8'>
+      <article className='mt-8 mx-5'>
         <div>
           <div className='flex items-center justify-center flex-col gap-4 mb-8'>
             <h2 className='font-bold text-xl md:text-2xl'>
@@ -45,7 +46,7 @@ export const HeroSection = () => {
           </div>
           <div className='flex gap-5 justify-center mb-16'>
             <Carousel />
-            {/* <BenefitsCard
+            <BenefitsCard
               cards={[
                 {
                   Icon: FastForward,
@@ -60,18 +61,7 @@ export const HeroSection = () => {
                 {
                   Icon: Monitor,
                   paragraphs:
-                    'Nosso sistema responsivo permite ac<button
-        className='absolute top-1/2 left-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2'
-        onclick='moveSlide(-1)'
-      >
-        &#10094;
-      </button>
-      <button
-        className='absolute top-1/2 right-2 transform -translate-y-1/2 bg-gray-800 text-white rounded-full p-2'
-        onclick='moveSlide(1)'
-      >
-        &#10095;
-      </button>esso em qualquer dispositivo e integrações poderosas com ferramentas como Power BI para uma gestão completa e eficiente.',
+                    'Nosso sistema responsivo permite acesso em qualquer dispositivo e integrações poderosas com ferramentas como Power BI para uma gestão completa e eficiente.',
                   title: 'Acesse de Qualquer Lugar, a Qualquer Hora!',
                 },
               ]}
@@ -85,7 +75,7 @@ export const HeroSection = () => {
                   title: 'Torne o Processo Intuitivo para o Jovem',
                 },
               ]}
-            /> */}
+            />
           </div>
         </div>
       </article>

@@ -5,7 +5,7 @@ export const BenefitsCard = ({ cards }: BenefitsCardType) => {
     <>
       {cards.map((card) => (
         <div
-          className='w-80 h-72 border border-[#f55d5d63] rounded-lg'
+          className='w-80 h-72 border border-[#f55d5d63] rounded-lg hidden md:block'
           key={card.title}
         >
           <div className='mx-5 flex flex-col gap-5'>

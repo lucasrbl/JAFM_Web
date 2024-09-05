@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const Footer = () => {
   return (
-    <footer className='flex justify-center'>
+    <footer className='flex justify-center items-center'>
       <hr className='bg-white' />
       <div>
         <p className='mb-2'>Contato e nossas Redes Sociais:</p>

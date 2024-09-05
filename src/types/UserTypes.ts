@@ -36,6 +36,8 @@ export const userSchema = z.object({
     .regex(/^\d{11}$/),
   birthDate: z.string().date(),
   phoneNumber: z.string().min(9).max(9),
+  class: z.string(),
+  affiliate: z.string(),
 });
 
 export type UserDataType = z.infer<typeof userSchema>;
