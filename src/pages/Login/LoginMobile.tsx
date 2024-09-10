@@ -1,40 +1,15 @@
 import { useState } from 'react';
-import { UserDataType } from '../../types/UserTypes';
 import { Eye, EyeOff } from 'lucide-react';
+import mobileHero from '@/assets/images/mobile-hero.svg';
 
 export const LoginMobile = () => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleShowInputText = () => {
-    const input: HTMLInputElement | null = document.querySelector('#password');
-
-    if (input) {
-      if (input.type === 'text') {
-        setShowPassword(false);
-        input.type = 'password';
-      }
-
-      setShowPassword(true);
-      input.type = 'text';
-    }
-  };
-
-  const [user, setUser] = useState<UserDataType>({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phoneNumber: '',
-    birthDate: '',
-    cpf: '',
-    name: '',
-    affiliate: '',
-    class: '',
-  });
-
   return (
-    <section className='bg-gradient-to-b from-primary-color to-secondary-red w-full'>
+    <section className='flex justify-center flex-col h-screen'>
       <div>
-        <h1 className='font-bold text-2xl text-center'>Login</h1>
+        <img src={mobileHero} width='250px' className='m-auto' />
+        <h1 className='font-bold text-2xl text-center py-3'>Login</h1>
       </div>
       <form>
         <div className='flex flex-col items-center gap-3'>
@@ -44,7 +19,7 @@ export const LoginMobile = () => {
             </label>
             <input
               type='email'
-              className='w-full rounded-lg px-2 py-1'
+              className='w-full rounded-lg px-2 py-2 bg-gray-200'
               placeholder='Enter your email'
             />
           </div>
@@ -54,28 +29,20 @@ export const LoginMobile = () => {
               Senha
             </label>
             <input
-              type='password'
-              className='w-full rounded-lg px-2 py-1'
+              type={showPassword ? 'text' : 'password'}
+              className='w-full rounded-lg px-2 py-2 bg-gray-200'
               placeholder='Enter your password'
               id='password'
             />
             <div
-              className='absolute top-8 left-[270px]'
-              onClick={handleShowInputText}
+              className='absolute top-9 right-3'
+              onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? (
-                <>
-                  <EyeOff />
-                </>
-              ) : (
-                <>
-                  <Eye />
-                </>
-              )}
+              {showPassword ? <EyeOff /> : <Eye />}
             </div>
 
             <div className='flex justify-end py-3'>
-              <button className='bg-transparent border-transparent text-gray-200 text-xs'>
+              <button className='bg-transparent border-transparent text-slate-900 text-xs'>
                 Esqueceu a senha?
               </button>
             </div>
