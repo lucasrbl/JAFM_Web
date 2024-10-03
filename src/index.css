@@ -17,7 +17,7 @@
 
   .primary-links-mobile,
   .primary-links-desktop {
-    @apply bg-primary-color rounded-xl text-white font-bold py-1 px-3;
+    @apply bg-primary-color rounded-md text-white font-bold py-1 px-3;
   }
 
   .primary-links-desktop {
@@ -26,6 +26,22 @@
 
   .secondary-links-desktop {
     @apply text-primary-color relative after:bg-primary-color after:absolute after:h-[2px] after:w-0 after:-bottom-1 after:left-1/2 hover:after:w-full hover:after:left-0 after:transition-all after:duration-300 cursor-pointer;
+  }
+
+  .input-desktop {
+    @apply rounded-lg w-72 px-6 py-1.5;
+  }
+
+  .label-desktop {
+    @apply text-white font-vietnam text-xs font-bold;
+  }
+
+  .input-mobile {
+    @apply w-full rounded-lg px-2 py-2 bg-gray-200;
+  }
+
+  .label-mobile {
+    @apply font-bold block mb-1 text-sm;
   }
 
   .template {
@@ -53,38 +69,38 @@
     @apply bg-gradient-to-r from-primary-color to-secondary-red inline-block text-transparent bg-clip-text font-bold;
   }
 
-  .login-screen-gradient {
+  .access-screen-gradient {
     @apply bg-gradient-to-b from-[#7B4296] from-[-45%] via-[#000000] via-50% to-primary-color to-[130%];
   }
-}
 
-.scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
+  .scrollbar::-webkit-scrollbar {
+    width: 5px;
+  }
 
-/* Track */
-.scrollbar::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px white;
-  border-radius: 10px;
-}
+  /* Track */
+  .scrollbar::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px white;
+    border-radius: 10px;
+  }
 
-/* Handle */
-.scrollbar::-webkit-scrollbar-thumb {
-  background: #5f1a1a;
-  border-radius: 10px;
-}
+  /* Handle */
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #5f1a1a;
+    border-radius: 10px;
+  }
 
-/* Handle on hover */
-.scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #b30000;
-}
+  /* Handle on hover */
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+  }
 
-.swiper-pagination-bullet {
-  background-color: #f65151; /* Substitua pela sua cor primária */
-  opacity: 0.7; /* Define a opacidade inicial */
-}
+  .swiper-pagination-bullet {
+    background-color: #f65151; /* Substitua pela sua cor primária */
+    opacity: 0.7; /* Define a opacidade inicial */
+  }
 
-.swiper-pagination-bullet-active {
-  background-color: #f65151; /* Substitua pela sua cor primária */
-  opacity: 1; /* Define a opacidade total quando ativo */
+  .swiper-pagination-bullet-active {
+    background-color: #f65151; /* Substitua pela sua cor primária */
+    opacity: 1; /* Define a opacidade total quando ativo */
+  }
 }
