@@ -7,7 +7,7 @@ import { LandingPage } from './pages/LandingPage/LandingPage';
 import Template from './pages/Templates/Template';
 import { Routes, Route } from 'react-router-dom';
 import { Login } from '@/pages/Login/Login';
-import { LoginMobile } from './pages/Login/Login copy';
+import { Register } from './pages/Register/Register';
 
 const App = () => {
   return (
@@ -19,8 +19,8 @@ const App = () => {
       </Route>
       <Route path='/acesso' element={<Template />}>
         <Route index element={<Login />} />
+        <Route path='registrar' element={<Register />} />
       </Route>
-      <Route path='/mobile' element={<LoginMobile />} />
     </Routes>
   );
 };

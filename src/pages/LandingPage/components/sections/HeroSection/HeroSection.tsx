@@ -22,8 +22,8 @@ export const HeroSection = () => {
 
           <div className='mt-5'>
             <Link
-              to='/login'
-              className='bg-primary-color rounded-xl text-white hover:bg-white border-2 hover:border-2 border-primary-color font-bold py-2 px-5 transition ease-in-out delay-[50ms] hover:text-primary-color'
+              to='/acesso'
+              className='bg-primary-color rounded-md text-white hover:bg-white border-2 hover:border-2 border-primary-color font-bold py-2 px-5 transition ease-in-out delay-[50ms] hover:text-primary-color'
             >
               Assine já
             </Link>
