@@ -1,36 +1,36 @@
-import { useState, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { UserDataType, userSchema } from '../../types/UserTypes';
+import { useState } from 'react';
+import { useGlobalContext } from '@/context/useGlobalContext';
+import { LoginMobile } from './LoginMobile';
+import { Label, Input } from '@/components';
+import { Link } from 'react-router-dom';
+import { If } from '@/components/If/If';
 
 export const Login = () => {
-  const { register, handleSubmit } = useForm<UserDataType>({
-    resolver: zodResolver(userSchema),
-  });
+  const { isMobile } = useGlobalContext();
 
-  const [user, setUser] = useState<UserDataType>({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    phoneNumber: '',
-    birthDate: '',
-    cpf: '',
-    name: '',
-    affiliate: '',
-    class: '',
-  });
+  // const [user, setUser] = useState<UserDataType>({
+  //   email: '',
+  //   password: '',
+  //   confirmPassword: '',
+  //   phoneNumber: '',
+  //   birthDate: '',
+  //   cpf: '',
+  //   name: '',
+  //   affiliate: '',
+  //   class: '',
+  // });
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
-  const [passDouble, setPassDouble] = useState('');
+  //const [passDouble, setPassDouble] = useState('');
   const [errorLogin, setErrorLogin] = useState(false);
-  const [telefone, setTelefone] = useState('');
-  const [nome, setNome] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [filial, setFilial] = useState('');
-  const [turma, setTurma] = useState('');
-  const [dataNascimento, setDataNascimento] = useState('');
-  const teste = useRef<HTMLInputElement>(null);
-
+  //const [telefone, setTelefone] = useState('');
+  //const [nome, setNome] = useState('');
+  //const [cpf, setCpf] = useState('');
+  //const [filial, setFilial] = useState('');
+  //const [turma, setTurma] = useState('');
+  //  const [dataNascimento, setDataNascimento] = useState('');
   // const handleLogin = () => {
   //   signInWithEmailAndPassword(auth, email, pass)
   //     .then((_userCredential) => {
@@ -53,69 +53,59 @@ export const Login = () => {
   // };
 
   return (
-    <div className='md:flex md:justify-center md:items-center ml-auto md:w-1/3 login-screen-gradient overflow-y-scroll'>
-      <div className='flex flex-col items-center'>
-        <p className='text-white text-xl font-bold font-vietnam mb-5'>Login</p>
+    <>
+      <If condition={isMobile}>
+        <LoginMobile />
+      </If>
 
-        <form className='flex flex-col gap-5 items-center'>
-          <div className='flex flex-col gap-2.5'>
-            <label
-              htmlFor='email'
-              className='text-white font-vietnam text-xs font-bold'
-            >
-              E-mail
-            </label>
-            <input
-              className='rounded-xl w-72 px-6 py-1.5'
-              id='email'
-              type='email'
-              name='email'
-              value={email}
-            />
-          </div>
+      <If condition={!isMobile}>
+        <div className='md:flex md:justify-center md:items-center ml-auto md:w-1/3 access-screen-gradient overflow-y-scroll'>
+          <div className='flex flex-col items-center'>
+            <p className='text-white text-xl font-bold font-vietnam mb-5'>
+              Login
+            </p>
 
-          <div className='flex flex-col gap-2.5'>
-            <label
-              htmlFor='password'
-              className='text-white font-vietnam text-xs font-bold'
-            >
-              Senha
-            </label>
-            <input
-              className='rounded-xl w-72 px-6 py-1.5'
-              id='password'
-              type='password'
-              value={pass}
-            />
-          </div>
+            <form className='flex flex-col gap-5 items-center'>
+              <div className='flex flex-col gap-2.5'>
+                <Label htmlFor='email' label='Email' responsive='desktop' />
+                <Input
+                  responsive='desktop'
+                  variant='regular'
+                  id='email'
+                  type='email'
+                />
+              </div>
 
-          <div className='flex flex-col items-center gap-6'>
-            {/*<button className="text-white underline font-bold" onClick={() => navigate("/forgot-my-password")}>
+              <div className='flex flex-col gap-2.5 relative'>
+                <Label responsive='desktop' htmlFor='password' label='Senha' />
+                <Input responsive='desktop' variant='password' id='password' />
+              </div>
+
+              <div className='flex flex-col items-center gap-4'>
+                {/*<button className="text-white underline font-bold" onClick={() => navigate("/forgot-my-password")}>
                   Esqueci minha senha
                   </button>*/}
 
-            <button
-              className='rounded-md bg-gradient-to-r from-primary-color to-secondary-red w-40 h-8 px-12 text-white font-vietnam'
-              onClick={() => console.log('')}
-            >
-              Entrar
-            </button>
+                <button className='rounded-md bg-gradient-to-r from-primary-color to-secondary-red w-40 h-8 px-12 text-white font-vietnam'>
+                  Entrar
+                </button>
 
-            {errorLogin == true && (
-              <div className='flex flex-col items-center text-red-500'>
-                <p>Usuário ou senha inválidos, por favor, tente novamente!</p>
+                <If condition={errorLogin}>
+                  <div className='flex flex-col items-center text-red-500'>
+                    <p>
+                      Usuário ou senha inválidos, por favor, tente novamente!
+                    </p>
+                  </div>
+                </If>
+
+                <Link to='/acesso/registrar' className='text-white font-bold'>
+                  Quero me cadastrar
+                </Link>
               </div>
-            )}
-
-            <button
-              className='text-white font-bold'
-              onClick={() => console.log(teste.current)}
-            >
-              Quero me cadastrar
-            </button>
+            </form>
           </div>
-        </form>
-      </div>
-    </div>
+        </div>
+      </If>
+    </>
   );
 };
