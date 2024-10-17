@@ -5,6 +5,10 @@ import { Navbar } from './components/Navbar/Navbar';
 export const Header = () => {
   const [isScrolledDown, setIsScrolledDown] = useState<boolean>(false);
 
+  const headerClassName = isScrolledDown
+    ? 'bg-white drop-shadow-md'
+    : 'bg-transparent drop-shadow-none';
+
   useLayoutEffect(() => {
     const handleScroll = () => {
       setIsScrolledDown(window.scrollY > 50);
@@ -16,13 +20,7 @@ export const Header = () => {
   }, []);
 
   return (
-    <header
-      className={`md:sticky top-0 left-0 ${
-        isScrolledDown
-          ? 'bg-white drop-shadow-md'
-          : 'bg-transparent drop-shadow-none'
-      } `}
-    >
+    <header className={`md:sticky top-0 left-0 ${headerClassName} `}>
       <div className='flex items-center justify-between'>
         <div className='px-4 py-4 mx-2'>
           <a href='/'>

@@ -12,21 +12,17 @@ type InputPropTypes = {
 export const Input = ({ className, responsive, variant }: InputPropTypes) => {
   const { showPassword, handlePasswordVisibility } = useGlobalContext();
 
+  const isMobile = responsive === 'mobile' ? 'input-mobile' : 'input-desktop';
+
   return (
     <>
       <If condition={variant === 'regular'}>
-        <input
-          className={`${
-            responsive === 'mobile' ? 'input-mobile' : 'input-desktop'
-          } ${className}`}
-        />
+        <input className={`${isMobile} ${className}`} />
       </If>
 
       <If condition={variant === 'password'}>
         <input
-          className={`${
-            responsive === 'mobile' ? 'input-mobile' : 'input-desktop'
-          } ${className}`}
+          className={`${isMobile} ${className}`}
           type={showPassword ? 'text' : 'password'}
         />
 
@@ -39,12 +35,7 @@ export const Input = ({ className, responsive, variant }: InputPropTypes) => {
       </If>
 
       <If condition={variant === 'confirmPassword'}>
-        <input
-          className={`${
-            responsive === 'mobile' ? 'input-mobile' : 'input-desktop'
-          } ${className}`}
-          type='password'
-        />
+        <input className={`${isMobile} ${className}`} type='password' />
       </If>
     </>
   );
