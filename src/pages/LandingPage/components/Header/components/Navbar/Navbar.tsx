@@ -40,7 +40,7 @@ export const Navbar = ({ links }: NavLinksTypes) => {
                 <li>
                   <Link
                     to={link.to}
-                    key={link.key}
+                    key={`${link.key}_${link.variant}`}
                     className={`${
                       link.variant === 'primary'
                         ? 'primary-links-mobile'
@@ -61,7 +61,7 @@ export const Navbar = ({ links }: NavLinksTypes) => {
             <li>
               <Link
                 to={link.to}
-                key={link.key}
+                key={`${link.key}_${link.variant}`}
                 className={`${
                   link.variant === 'primary'
                     ? 'primary-links-desktop'
