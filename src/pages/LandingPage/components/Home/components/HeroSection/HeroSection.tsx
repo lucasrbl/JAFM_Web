@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import homeImage from '@/assets/images/home-image.png';
-import { BenefitsCard, Carousel } from './components/index';
-import { FastForward, Monitor, LineChart } from 'lucide-react';
+import { BenefitsCards, Carousel } from './components/index';
 
 export const HeroSection = () => {
   return (
@@ -46,36 +45,7 @@ export const HeroSection = () => {
           </div>
           <div className='flex gap-5 justify-center mb-16'>
             <Carousel />
-            <BenefitsCard
-              cards={[
-                {
-                  Icon: FastForward,
-                  paragraphs:
-                    'Visualize o desenvolvimento do jovem a partir de relátorios com diferentes métricas, gráficos e tabelas, trazendo novos insights para uma melhor tomada de decisão',
-                  title: 'Visualize os Dados de Forma Diversificada',
-                },
-              ]}
-            />
-            <BenefitsCard
-              cards={[
-                {
-                  Icon: Monitor,
-                  paragraphs:
-                    'Nosso sistema responsivo permite acesso em qualquer dispositivo e integrações poderosas com ferramentas como Power BI para uma gestão completa e eficiente.',
-                  title: 'Acesse de Qualquer Lugar, a Qualquer Hora!',
-                },
-              ]}
-            />
-            <BenefitsCard
-              cards={[
-                {
-                  Icon: LineChart,
-                  paragraphs:
-                    'Com o aplicativo para dispositivos móveis do Jovem Aprendiz Forms Management, o jovem pode acompanhar seu próprio desenvolvimento e conferir seus certificados',
-                  title: 'Torne o Processo Intuitivo para o Jovem',
-                },
-              ]}
-            />
+            <BenefitsCards />
           </div>
         </div>
       </article>
