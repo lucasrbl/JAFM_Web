@@ -1,6 +1,7 @@
+import { BenefitsCardsType } from '@/types';
 import { FastForward, Monitor, LineChart } from 'lucide-react';
 
-export const cards = [
+export const benefitsCardsData: BenefitsCardsType = [
   {
     Icon: FastForward,
     paragraphs:
