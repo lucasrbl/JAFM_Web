@@ -1,4 +1,4 @@
-export interface affiliates {
+export type AffiliatesType = {
   classes: string[];
   city: string;
-}
+};

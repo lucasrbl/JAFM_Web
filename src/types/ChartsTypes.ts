@@ -1,13 +1,13 @@
 import { ChartDataset } from 'chart.js';
 
-export interface BarTypes {
+export type BarTypes = {
   labels: string[];
   datasets: ChartDataset<'bar'>[];
   progress: number[];
-}
+};
 
-export interface PieTypes {
+export type PieTypes = {
   labels: string[];
   datasets: ChartDataset<'pie'>[];
   progress: number[];
-}
+};
