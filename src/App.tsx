@@ -8,8 +8,20 @@ import Template from './pages/Templates/Template';
 import { Routes, Route } from 'react-router-dom';
 import { Login } from '@/pages/Login/Login';
 import { Register } from './pages/Register/Register';
+import { startMock } from './msw';
+import { useEffect } from 'react';
+import { getUsers } from './hooks/getUsers';
+
+// TODO: Definir uma url padrão no axios
+// TODO: Montar um objeto de retorno no msw
+// TODO: Criar um hook do react query para pegar os dados da requisição
+// TODO: Formatar os inputs (data, cpf, cpnj e número de telefone)
 
 const App = () => {
+  useEffect(() => getUsers(), []);
+
+  startMock();
+
   return (
     <Routes>
       <Route path='/' element={<LandingPage />}>
