@@ -1,36 +1,16 @@
-import { useState } from 'react';
-import { useGlobalContext } from '@/context/useGlobalContext';
+import { useEffect, useState } from 'react';
 import { LoginMobile } from './LoginMobile';
-import { Label, Input } from '@/components';
+import { Label, Input, If } from '@/components';
 import { Link } from 'react-router-dom';
-import { If } from '@/components/If/If';
+import { useMobile, useUser } from '@/hooks/index';
 
 export const Login = () => {
-  const { isMobile } = useGlobalContext();
+  const { isMobile } = useMobile();
 
-  // const [user, setUser] = useState<UserDataType>({
-  //   email: '',
-  //   password: '',
-  //   confirmPassword: '',
-  //   phoneNumber: '',
-  //   birthDate: '',
-  //   cpf: '',
-  //   name: '',
-  //   affiliate: '',
-  //   class: '',
-  // });
+  const { handleInput, user } = useUser();
 
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState('');
-  const [pass, setPass] = useState('');
-  //const [passDouble, setPassDouble] = useState('');
   const [errorLogin, setErrorLogin] = useState(false);
-  //const [telefone, setTelefone] = useState('');
-  //const [nome, setNome] = useState('');
-  //const [cpf, setCpf] = useState('');
-  //const [filial, setFilial] = useState('');
-  //const [turma, setTurma] = useState('');
-  //  const [dataNascimento, setDataNascimento] = useState('');
+
   // const handleLogin = () => {
   //   signInWithEmailAndPassword(auth, email, pass)
   //     .then((_userCredential) => {
@@ -48,9 +28,9 @@ export const Login = () => {
   //     });
   // };
 
-  // const handleInput = (e) => {
-  //   setUser({ ...user, [e.target.name]: e.target.value });
-  // };
+  useEffect(() => {
+    console.log(user.password);
+  }, [user.password]);
 
   return (
     <>
@@ -69,16 +49,26 @@ export const Login = () => {
               <div className='flex flex-col gap-2.5'>
                 <Label htmlFor='email' label='Email' responsive='desktop' />
                 <Input
-                  responsive='desktop'
+                  device='desktop'
                   variant='regular'
+                  name='email'
+                  value={user.email}
                   id='email'
                   type='email'
+                  onChange={handleInput}
                 />
               </div>
 
               <div className='flex flex-col gap-2.5 relative'>
                 <Label responsive='desktop' htmlFor='password' label='Senha' />
-                <Input responsive='desktop' variant='password' id='password' />
+                <Input
+                  device='desktop'
+                  variant='password'
+                  id='password'
+                  onChange={handleInput}
+                  name='password'
+                  value={user.password}
+                />
               </div>
 
               <div className='flex flex-col items-center gap-4'>

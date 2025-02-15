@@ -1,11 +1,9 @@
-import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
 import mobileHero from '@/assets/images/mobile-hero.svg';
-import { Label } from '@/components/Label/Label';
-import { Input } from '@/components/Input/Input';
+import { Label, Input } from '@/components';
+import { useUser } from '@/hooks';
 
 export const LoginMobile = () => {
-  const [showPassword, setShowPassword] = useState(false);
+  const { handleInput, user } = useUser();
 
   return (
     <section className='flex justify-center flex-col h-screen'>
@@ -18,28 +16,26 @@ export const LoginMobile = () => {
             <Label responsive='mobile' label='Email' htmlFor='email' />
             <Input
               variant='regular'
-              responsive='mobile'
+              device='mobile'
               placeholder='Digite seu email'
               id='email'
+              name='email'
+              value={user.email}
+              onChange={handleInput}
             />
           </div>
 
           <div className='w-4/5 relative'>
             <Label label='Senha' responsive='mobile' htmlFor='password' />
             <Input
-              responsive='mobile'
+              device='mobile'
               variant='password'
-              type={showPassword ? 'text' : 'password'}
               placeholder='Digite sua senha'
               id='password'
+              onChange={handleInput}
+              name='password'
+              value={user.password}
             />
-            <div
-              className='absolute top-8 right-3'
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <EyeOff /> : <Eye />}
-            </div>
-
             <div className='flex justify-end py-3'>
               <button className='bg-transparent border-transparent text-slate-900 text-xs'>
                 Esqueceu a senha?

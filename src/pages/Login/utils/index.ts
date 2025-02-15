@@ -1,1 +1,0 @@
-import { handleSignUp } from "./handleSignUp";

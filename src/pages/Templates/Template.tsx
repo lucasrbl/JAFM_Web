@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import { Logo } from './components/Logo/Logo';
 
-import { useGlobalContext } from '@/context/useGlobalContext';
 import { If } from '@/components/If/If';
+import { useMobile } from '@/hooks/useMobile';
 
 const Template = () => {
-  const { isMobile } = useGlobalContext();
+  const { isMobile } = useMobile();
 
   return (
     <section>

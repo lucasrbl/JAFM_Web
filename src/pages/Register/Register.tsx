@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Input, Label } from '@/components';
 import { classesData } from '@/data/ClassesData';
+import { useUser } from '@/hooks';
+import { useEffect } from 'react';
+import { formatCpf, formatPhoneNumber } from '@/utils';
 
 export const Register = () => {
+  const { user, handleInput } = useUser();
+
+  useEffect(() => {});
+
   return (
     <div className='flex h-full justify-center items-center ml-auto w-1/3 access-screen-gradient py-12'>
       <div className='flex flex-col items-center h-full overflow-scroll scrollbar overflow-x-hidden'>
@@ -18,22 +25,35 @@ export const Register = () => {
               id='email'
               type='email'
               variant='regular'
+              name='email'
+              value={user.email}
+              onChange={handleInput}
             />
           </div>
 
           <div className='flex flex-col gap-2.5'>
             <Label htmlFor='name' label='Nome' responsive='desktop' />
             <Input
-              responsive='desktop'
-              id='email'
+              device='desktop'
+              id='name'
               type='text'
               variant='regular'
+              name='name'
+              value={user.name}
+              onChange={handleInput}
             />
           </div>
 
           <div className='flex flex-col gap-2.5 relative'>
             <Label responsive='desktop' htmlFor='password' label='Senha' />
-            <Input responsive='desktop' id='password' variant='password' />
+            <Input
+              device='desktop'
+              id='password'
+              variant='password'
+              value={user.password}
+              name='password'
+              onChange={handleInput}
+            />
           </div>
 
           {/* The input down below is not gonna be variant "password" 
@@ -46,21 +66,39 @@ export const Register = () => {
               htmlFor='confirmPassword'
             />
             <Input
-              responsive='desktop'
+              device='desktop'
               variant='confirmPassword'
               type='password'
               id='confirmPassword'
+              value={user.confirmPassword}
+              name='confirmPassword'
+              onChange={handleInput}
             />
           </div>
 
           <div className='flex flex-col gap-2.5'>
             <Label label='Telefone:' responsive='desktop' htmlFor='phone' />
-            <Input responsive='desktop' variant='regular' />
+            <Input
+              device='desktop'
+              variant='regular'
+              id='phone'
+              name='phone'
+              value={formatPhoneNumber(user.phone)}
+              onChange={handleInput}
+              maxLength={11}
+            />
           </div>
 
           <div className='flex flex-col gap-2.5'>
             <Label label='CPF:' htmlFor='cpf' responsive='desktop' />
-            <Input responsive='desktop' variant='regular' id='cpf' />
+            <Input
+              device='desktop'
+              variant='regular'
+              id='cpf'
+              name='cpf'
+              value={formatCpf(user.cpf)}
+              onChange={handleInput}
+            />
           </div>
 
           <div className='flex flex-col gap-2.5'>
@@ -70,7 +108,10 @@ export const Register = () => {
               htmlFor='affiliate'
             />
             <select
-              id='filial'
+              id='affiliate'
+              value={user.affiliate}
+              name='affiliate'
+              onChange={handleInput}
               className='bg-gray-50 border w-72 border-gray-300 text-gray-900 text-xs rounded-xl focus:ring-0 focus:outline-none focus:white p-2.5'
             >
               <option selected>Escolha uma filial</option>
@@ -84,13 +125,16 @@ export const Register = () => {
 
           <div className='flex flex-col gap-2.5'>
             <label
-              htmlFor='turma'
+              htmlFor='class'
               className='text-white font-vietnam text-xs font-bold'
             >
               Selecione agora suas turmas:
             </label>
             <select
-              id='turma'
+              id='class'
+              value={user.class}
+              onChange={handleInput}
+              name='class'
               className='bg-gray-50 border w-72 border-gray-300 text-gray-900 text-xs rounded-xl focus:ring-0 focus:outline-none focus:white p-2.5'
             >
               <option selected>Selecione as turmas:</option>
@@ -108,15 +152,18 @@ export const Register = () => {
 
           <div className='flex flex-col gap-2.5'>
             <label
-              htmlFor='dataNascimento'
+              htmlFor='birthDate'
               className='text-white font-vietnam text-xs font-bold'
             >
               Data de Nascimento:
             </label>
             <input
               className='rounded-xl w-72 px-6 py-1.5'
-              id='dataNascimento'
+              id='birthDate'
               type='text'
+              value={user.birthDate}
+              name='birthDate'
+              onChange={handleInput}
             />
           </div>
 
